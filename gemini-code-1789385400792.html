@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>مِحسَب | جداول الرياضيات</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #202449;
+      --purple: #6656c8;
+      --purple-dark: #4c3caf;
+      --lavender: #f1efff;
+      --mint: #dbf5ea;
+      --line: #e7e8f1;
+      --card: #ffffff;
+      --very-good: #228856;
+      --excellent: #9b7400;
+      --good: #b85e18;
+      --error: #b84042;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: #fafafd;
+      color: var(--ink);
+      font-family: "Cairo", Tahoma, Arial, sans-serif;
+      line-height: 1.65;
+    }
+
+    .hero {
+      min-height: 285px;
+      padding: 42px 22px 52px;
+      color: white;
+      text-align: center;
+      background:
+        radial-gradient(circle at 12% 15%, rgba(255,255,255,.16) 0 5px, transparent 6px),
+        radial-gradient(circle at 86% 23%, rgba(255,255,255,.16) 0 9px, transparent 10px),
+        linear-gradient(132deg, #4d3eb3, #7a69dc 53%, #4b9fbd);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::after {
+      content: "×  ÷  √  ²  +  =";
+      position: absolute;
+      direction: ltr;
+      left: 5%; bottom: -48px;
+      font-size: clamp(56px, 11vw, 128px);
+      font-weight: 800;
+      letter-spacing: 18px;
+      color: rgba(255,255,255,.10);
+      transform: rotate(-7deg);
+      white-space: nowrap;
+    }
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      font-weight: 800;
+      position: relative;
+      z-index: 1;
+    }
+    .brand-mark {
+      width: 35px; height: 35px;
+      display: grid; place-items: center;
+      border: 2px solid rgba(255,255,255,.86);
+      border-radius: 10px;
+      font-size: 19px;
+    }
+    h1 {
+      margin: 20px 0 7px;
+      font-size: clamp(29px, 5vw, 44px);
+      line-height: 1.35;
+      position: relative; z-index: 1;
+    }
+    .hero p { margin: 0; opacity: .94; font-size: 17px; position: relative; z-index: 1; }
+    .timer-note {
+      display: inline-block;
+      padding: 7px 16px;
+      margin-top: 19px;
+      border-radius: 30px;
+      background: rgba(255,255,255,.16);
+      border: 1px solid rgba(255,255,255,.20);
+      font-size: 13px;
+      position: relative; z-index: 1;
+    }
+
+    main { width: min(1160px, calc(100% - 32px)); margin: -28px auto 70px; position: relative; z-index: 2; }
+    .intro {
+      display: flex; align-items: center; gap: 12px;
+      padding: 17px 21px;
+      margin-bottom: 30px;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 17px;
+      box-shadow: 0 8px 28px rgba(35,38,75,.07);
+      font-size: 14px;
+    }
+    .intro .spark { font-size: 25px; }
+
+    .section-card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: clamp(20px, 4vw, 34px);
+      margin-top: 26px;
+      box-shadow: 0 10px 32px rgba(35,38,75,.055);
+    }
+    .section-heading { display: flex; justify-content: space-between; align-items: flex-start; gap: 15px; margin-bottom: 20px; }
+    .eyebrow { color: var(--purple); font-size: 12px; font-weight: 800; letter-spacing: .35px; margin-bottom: 2px; }
+    h2 { margin: 0; font-size: clamp(21px, 3vw, 29px); line-height: 1.4; }
+    .badge { padding: 5px 11px; border-radius: 10px; background: var(--lavender); color: var(--purple-dark); font-weight: 700; font-size: 12px; white-space: nowrap; }
+    .table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 15px; }
+    table { width: 100%; border-collapse: collapse; text-align: center; white-space: nowrap; }
+    th { padding: 10px 13px; background: #f5f4ff; color: #4e45a3; font-size: 13px; }
+    td { padding: 10px 13px; border-top: 1px solid var(--line); font-weight: 600; }
+    tbody tr:nth-child(even) { background: #fcfcff; }
+    .math { direction: ltr; unicode-bidi: embed; font-family: Arial, sans-serif; font-size: 17px; }
+    .roots-grid, .powers-grid { display: grid; grid-template-columns: repeat(4, 1fr); border: 1px solid var(--line); border-radius: 15px; overflow: hidden; }
+    .math-cell { padding: 14px 10px; text-align: center; border-left: 1px solid var(--line); border-bottom: 1px solid var(--line); font-weight: 700; background: #fff; }
+    .math-cell:nth-child(4n) { border-left: 0; }
+    .math-cell:nth-last-child(-n+4) { border-bottom: 0; }
+    .math-cell .answer { color: var(--purple); margin-right: 7px; }
+    .multiplication-table th { min-width: 55px; }
+    .multiplication-table td:first-child, .multiplication-table th:first-child { background: #e6e2ff; color: #45388f; font-weight: 800; }
+
+    .quiz { margin-top: 32px; padding-top: 25px; border-top: 1px dashed #d9dbe7; }
+    .quiz-bar { display: flex; gap: 16px; justify-content: space-between; align-items: center; flex-wrap: wrap; }
+    h3 { margin: 0; font-size: 19px; }
+    .quiz-hint { margin: 3px 0 0; color: #6d718c; font-size: 13px; }
+    .timer {
+      display: none; align-items: center; gap: 8px; padding: 8px 13px;
+      border-radius: 11px; background: #fff5de; color: #876000; font-size: 14px; font-weight: 800; direction: ltr;
+    }
+    .timer.active { display: flex; }
+    .timer.urgent { color: #b84042; background: #fff0f1; animation: pulse .85s ease infinite alternate; }
+    @keyframes pulse { to { transform: scale(1.035); } }
+    .start-btn, .submit-btn {
+      border: 0; border-radius: 11px; padding: 11px 20px; color: white;
+      background: var(--purple); font: 700 14px "Cairo", sans-serif; cursor: pointer; transition: transform .2s, background .2s;
+    }
+    .start-btn:hover, .submit-btn:hover { background: var(--purple-dark); transform: translateY(-1px); }
+    .questions-container { display: none; margin-top: 22px; }
+    .questions-container.active { display: block; }
+    .question { padding: 15px 0; border-bottom: 1px solid #edf0f5; }
+    .question:last-of-type { border-bottom: none; }
+    .question-title { font-weight: 700; margin-bottom: 11px; }
+    .options { display: flex; gap: 8px; flex-wrap: wrap; }
+    .option { position: relative; }
+    .option input { position: absolute; opacity: 0; pointer-events: none; }
+    .option span {
+      display: block; min-width: 74px; padding: 7px 12px; border: 1px solid #daddEB;
+      border-radius: 9px; background: white; text-align: center; cursor: pointer;
+      font-size: 14px; font-weight: 600; transition: .15s;
+    }
+    .option input:checked + span { background: var(--lavender); border-color: var(--purple); color: var(--purple-dark); }
+    .submit-btn { display: block; margin-top: 20px; width: 100%; background: #26365f; }
+    .result { display: none; margin-top: 19px; padding: 17px; border-radius: 13px; text-align: center; font-weight: 700; }
+    .result.show { display: block; }
+    .result-score { display: block; color: var(--ink); font-size: 18px; margin-bottom: 3px; font-weight: 800; }
+    .result-status { font-size: 20px; font-weight: 800; }
+    .result.very-good { background: #e5f7ed; color: var(--very-good); }
+    .result.excellent { background: #fff6bd; color: var(--excellent); }
+    .result.good { background: #ffead8; color: var(--good); }
+    .result.retry { background: #ffeaea; color: var(--error); }
+    .restart-btn { border: 0; color: inherit; background: transparent; font: 700 13px "Cairo", sans-serif; text-decoration: underline; cursor: pointer; margin-top: 9px; display: inline-block; }
+    footer { text-align: center; padding: 25px 15px; color: #777b94; font-size: 13px; }
+
+    @media (max-width: 600px) {
+      main { width: min(100% - 20px, 1160px); }
+      .hero { padding-top: 31px; min-height: 260px; }
+      .section-card { border-radius: 18px; padding: 18px; }
+      .roots-grid, .powers-grid { grid-template-columns: repeat(2, 1fr); }
+      .math-cell:nth-child(4n) { border-left: 1px solid var(--line); }
+      .math-cell:nth-child(2n) { border-left: 0; }
+      .math-cell:nth-last-child(-n+4) { border-bottom: 1px solid var(--line); }
+      .math-cell:nth-last-child(-n+2) { border-bottom: 0; }
+      .section-heading { margin-bottom: 15px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="brand"><span class="brand-mark">Σ</span><span>مِحسَب</span></div>
+    <h1>تعلّم الجداول بثقة</h1>
+    <p>راجع، تدرّب، واختبر نفسك في دقائق.</p>
+    <div class="timer-note">⏱ كل اختبار مدته ٣ دقائق (الأسئلة تتغير عشوائياً)</div>
+  </header>
+
+  <main>
+    <div class="intro"><span class="spark">💡</span><span>ابدأ بالمراجعة، ثم اضغط <strong>ابدأ الاختبار</strong>. ستظهر النتيجة والدرجة فور إجابتك أو عند انتهاء الوقت.</span></div>
+
+    <!-- 1. Roots Section -->
+    <section class="section-card" id="roots">
+      <div class="section-heading"><div><div class="eyebrow">١ · الأساسيات</div><h2>جدول الجذور المشهورة</h2></div><span class="badge">12 جذراً</span></div>
+      <div class="roots-grid">
+        <div class="math-cell"><span class="math">√1</span><span class="answer">= 1</span></div><div class="math-cell"><span class="math">√4</span><span class="answer">= 2</span></div><div class="math-cell"><span class="math">√9</span><span class="answer">= 3</span></div><div class="math-cell"><span class="math">√16</span><span class="answer">= 4</span></div>
+        <div class="math-cell"><span class="math">√25</span><span class="answer">= 5</span></div><div class="math-cell"><span class="math">√36</span><span class="answer">= 6</span></div><div class="math-cell"><span class="math">√49</span><span class="answer">= 7</span></div><div class="math-cell"><span class="math">√64</span><span class="answer">= 8</span></div>
+        <div class="math-cell"><span class="math">√81</span><span class="answer">= 9</span></div><div class="math-cell"><span class="math">√100</span><span class="answer">= 10</span></div><div class="math-cell"><span class="math">√121</span><span class="answer">= 11</span></div><div class="math-cell"><span class="math">√144</span><span class="answer">= 12</span></div>
+      </div>
+      <div class="quiz" id="quiz-roots">
+        <div class="quiz-bar"><div><h3>اختبار الجذور</h3><p class="quiz-hint">أسئلة عشوائية متجددة في كل مرة.</p></div><div class="timer">⏱ <span>03:00</span></div><button class="start-btn" type="button">ابدأ الاختبار</button></div>
+        <div class="questions-container">
+          <form class="questions-form"></form>
+          <button class="submit-btn" type="button">إنهاء الاختبار وإظهار النتيجة</button>
+        </div>
+        <div class="result"></div>
+      </div>
+    </section>
+
+    <!-- 2. Multiplication Section -->
+    <section class="section-card" id="multiplication">
+      <div class="section-heading"><div><div class="eyebrow">٢ · المراجعة</div><h2>جدول الضرب إلى ١٢</h2></div><span class="badge">12 × 12</span></div>
+      <div class="table-wrap"><table class="multiplication-table"><thead><tr><th>×</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th></tr></thead><tbody id="multiplication-body"></tbody></table></div>
+      <div class="quiz" id="quiz-multiplication">
+        <div class="quiz-bar"><div><h3>اختبار جدول الضرب</h3><p class="quiz-hint">أسئلة عشوائية متجددة في كل مرة.</p></div><div class="timer">⏱ <span>03:00</span></div><button class="start-btn" type="button">ابدأ الاختبار</button></div>
+        <div class="questions-container">
+          <form class="questions-form"></form>
+          <button class="submit-btn" type="button">إنهاء الاختبار وإظهار النتيجة</button>
+        </div>
+        <div class="result"></div>
+      </div>
+    </section>
+
+    <!-- 3. Powers Section -->
+    <section class="section-card" id="powers">
+      <div class="section-heading"><div><div class="eyebrow">٣ · التثبيت</div><h2>جدول الأسس المشهورة</h2></div><span class="badge">التربيع والتكعيب</span></div>
+      <div class="powers-grid">
+        <div class="math-cell"><span class="math">1²</span><span class="answer">= 1</span></div><div class="math-cell"><span class="math">2²</span><span class="answer">= 4</span></div><div class="math-cell"><span class="math">3²</span><span class="answer">= 9</span></div><div class="math-cell"><span class="math">4²</span><span class="answer">= 16</span></div>
+        <div class="math-cell"><span class="math">5²</span><span class="answer">= 25</span></div><div class="math-cell"><span class="math">6²</span><span class="answer">= 36</span></div><div class="math-cell"><span class="math">7²</span><span class="answer">= 49</span></div><div class="math-cell"><span class="math">8²</span><span class="answer">= 64</span></div>
+        <div class="math-cell"><span class="math">9²</span><span class="answer">= 81</span></div><div class="math-cell"><span class="math">10²</span><span class="answer">= 100</span></div><div class="math-cell"><span class="math">2³</span><span class="answer">= 8</span></div><div class="math-cell"><span class="math">3³</span><span class="answer">= 27</span></div>
+        <div class="math-cell"><span class="math">4³</span><span class="answer">= 64</span></div><div class="math-cell"><span class="math">5³</span><span class="answer">= 125</span></div><div class="math-cell"><span class="math">6³</span><span class="answer">= 216</span></div><div class="math-cell"><span class="math">10³</span><span class="answer">= 1000</span></div>
+      </div>
+      <div class="quiz" id="quiz-powers">
+        <div class="quiz-bar"><div><h3>اختبار الأسس</h3><p class="quiz-hint">أسئلة عشوائية متجددة في كل مرة.</p></div><div class="timer">⏱ <span>03:00</span></div><button class="start-btn" type="button">ابدأ الاختبار</button></div>
+        <div class="questions-container">
+          <form class="questions-form"></form>
+          <button class="submit-btn" type="button">إنهاء الاختبار وإظهار النتيجة</button>
+        </div>
+        <div class="result"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>جميع الحقوق محفوظة © مِحسَب</p>
+  </footer>
+
+  <script>
+    // Build Multiplication Table
+    const tbody = document.getElementById('multiplication-body');
+    if (tbody) {
+      for (let r = 1; r <= 12; r++) {
+        let tr = document.createElement('tr');
+        let th = document.createElement('td');
+        th.textContent = r;
+        tr.appendChild(th);
+        for (let c = 1; c <= 12; c++) {
+          let td = document.createElement('td');
+          td.textContent = r * c;
+          tr.appendChild(td);
+        }
+        tbody.appendChild(tr);
+      }
+    }
+
+    // Question Banks
+    const questionBanks = {
+      'quiz-roots': [
+        { q: '√64', correct: 8, options: [6, 8, 9] },
+        { q: '√49', correct: 7, options: [5, 7, 9] },
+        { q: '√100', correct: 10, options: [10, 12, 8] },
+        { q: '√16', correct: 4, options: [2, 4, 6] },
+        { q: '√144', correct: 12, options: [11, 12, 14] },
+        { q: '√81', correct: 9, options: [7, 8, 9] },
+        { q: '√25', correct: 5, options: [4, 5, 6] },
+        { q: '√36', correct: 6, options: [6, 7, 8] },
+        { q: '√121', correct: 11, options: [10, 11, 12] },
+        { q: '√9', correct: 3, options: [3, 4, 5] }
+      ],
+      'quiz-multiplication': [
+        { q: '7 × 8', correct: 56, options: [54, 56, 64] },
+        { q: '12 × 9', correct: 108, options: [96, 108, 118] },
+        { q: '6 × 12', correct: 72, options: [62, 72, 82] },
+        { q: '11 × 11', correct: 121, options: [111, 121, 132] },
+        { q: '5 × 12', correct: 60, options: [50, 60, 70] },
+        { q: '9 × 8', correct: 72, options: [72, 81, 64] },
+        { q: '7 × 7', correct: 49, options: [42, 49, 56] },
+        { q: '12 × 12', correct: 144, options: [124, 134, 144] },
+        { q: '8 × 6', correct: 48, options: [42, 48, 54] },
+        { q: '9 × 7', correct: 63, options: [56, 63, 72] }
+      ],
+      'quiz-powers': [
+        { q: '7²', correct: 49, options: [42, 49, 56] },
+        { q: '4³', correct: 64, options: [16, 64, 81] },
+        { q: '5³', correct: 125, options: [25, 100, 125] },
+        { q: '9²', correct: 81, options: [72, 81, 90] },
+        { q: '6³', correct: 216, options: [126, 196, 216] },
+        { q: '8²', correct: 64, options: [56, 64, 72] },
+        { q: '3³', correct: 27, options: [9, 18, 27] },
+        { q: '6²', correct: 36, options: [30, 36, 42] },
+        { q: '2³', correct: 8, options: [6, 8, 16] },
+        { q: '10²', correct: 100, options: [100, 1000, 20] }
+      ]
+    };
+
+    // Quiz Manager
+    document.querySelectorAll('.quiz').forEach(quizContainer => {
+      const quizId = quizContainer.id;
+      const startBtn = quizContainer.querySelector('.start-btn');
+      const questionsContainer = quizContainer.querySelector('.questions-container');
+      const form = quizContainer.querySelector('.questions-form');
+      const submitBtn = quizContainer.querySelector('.submit-btn');
+      const timerDisplay = quizContainer.querySelector('.timer');
+      const timerSpan = timerDisplay.querySelector('span');
+      const resultDiv = quizContainer.querySelector('.result');
+      
+      let timerInterval;
+      let activeQuestions = [];
+
+      function shuffle(array) {
+        return array.sort(() => Math.random() - 0.5);
+      }
+
+      function generateQuiz() {
+        form.innerHTML = '';
+        const bank = questionBanks[quizId];
+        activeQuestions = shuffle([...bank]).slice(0, 5);
+
+        activeQuestions.forEach((item, index) => {
+          const qDiv = document.createElement('div');
+          qDiv.className = 'question';
+          
+          let optionsHTML = '';
+          const shuffledOptions = shuffle([...item.options]);
+          shuffledOptions.forEach(opt => {
+            optionsHTML += `
+              <label class="option">
+                <input type="radio" name="q_${quizId}_${index}" value="${opt}">
+                <span>${opt}</span>
+              </label>
+            `;
+          });
+
+          qDiv.innerHTML = `
+            <div class="question-title"><span class="math">${item.q}</span> يساوي:</div>
+            <div class="options">${optionsHTML}</div>
+          `;
+          form.appendChild(qDiv);
+        });
+      }
+
+      function startTimer() {
+        let timeLeft = 180;
+        timerDisplay.classList.add('active');
+        timerDisplay.classList.remove('urgent');
+        timerSpan.textContent = '03:00';
+
+        timerInterval = setInterval(() => {
+          timeLeft--;
+          let m = String(Math.floor(timeLeft / 60)).padStart(2, '0');
+          let s = String(timeLeft % 60).padStart(2, '0');
+          timerSpan.textContent = `${m}:${s}`;
+
+          if (timeLeft <= 30) timerDisplay.classList.add('urgent');
+          if (timeLeft <= 0) {
+            clearInterval(timerInterval);
+            finishQuiz();
+          }
+        }, 1000);
+      }
+
+      function finishQuiz() {
+        clearInterval(timerInterval);
+        timerDisplay.classList.remove('active');
+        submitBtn.style.display = 'none';
+
+        let correctCount = 0;
+        activeQuestions.forEach((item, index) => {
+          const selected = form.querySelector(`input[name="q_${quizId}_${index}"]:checked`);
+          if (selected && parseInt(selected.value) === item.correct) {
+            correctCount++;
+          }
+        });
+
+        form.querySelectorAll('input').forEach(inp => inp.disabled = true);
+
+        const totalScore = correctCount * 2; // Each question is worth 2 points (Total 10)
+        let statusClass = 'retry';
+        let statusText = 'تحتاج لإعادة المحاولة لتثبيت الحفظ';
+
+        if (totalScore === 10) {
+          statusClass = 'excellent';
+          statusText = 'ممتاز جداً! إجابات كاملة ومتقنة 👏';
+        } else if (totalScore >= 8) {
+          statusClass = 'very-good';
+          statusText = 'رائع جداً! مستوى متميز 👍';
+        } else if (totalScore >= 6) {
+          statusClass = 'good';
+          statusText = 'جيد، يمكنك تحسين النتيجة بإعادة الاختبار';
+        }
+
+        resultDiv.className = `result show ${statusClass}`;
+        resultDiv.innerHTML = `
+          <span class="result-score">الدرجة المستحقة: ${totalScore} من 10 (${correctCount}/5 أسئلة صحيحة)</span>
+          <div class="result-status">${statusText}</div>
+          <button type="button" class="restart-btn">إعادة الاختبار بأسئلة جديدة 🔄</button>
+        `;
+
+        resultDiv.querySelector('.restart-btn').addEventListener('click', resetQuiz);
+      }
+
+      function resetQuiz() {
+        resultDiv.className = 'result';
+        resultDiv.innerHTML = '';
+        questionsContainer.classList.remove('active');
+        startBtn.style.display = 'inline-block';
+        submitBtn.style.display = 'block';
+      }
+
+      startBtn.addEventListener('click', () => {
+        startBtn.style.display = 'none';
+        generateQuiz();
+        questionsContainer.classList.add('active');
+        startTimer();
+      });
+
+      submitBtn.addEventListener('click', finishQuiz);
+    });
+  </script>
+</body>
+</html>
